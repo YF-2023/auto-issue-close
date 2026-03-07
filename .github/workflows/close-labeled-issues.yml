@@ -1,0 +1,16 @@
+name: Close Labeled Issues
+
+on:
+  issues:
+    types: [labeled]
+
+jobs:
+  close_issues:
+    runs-on: ubuntu-latest
+    if: github.event.label.name == 'completed' || github.event.label.name == 'wontfix'
+    steps:
+      - name: Close issue
+        uses: peter-evans/close-issue@v2
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          comment: 'Closing issue as it is labeled "${{ github.event.label.name }}".'
